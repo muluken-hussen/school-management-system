@@ -81,4 +81,14 @@ class TeacherResource extends Resource
             'edit' => Pages\EditTeacher::route('/{record}/edit'),
         ];
     }
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+        ];
+    }
 }

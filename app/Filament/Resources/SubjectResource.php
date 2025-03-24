@@ -72,4 +72,14 @@ class SubjectResource extends Resource
             'edit' => Pages\EditSubject::route('/{record}/edit'),
         ];
     }
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+        ];
+    }
 }
