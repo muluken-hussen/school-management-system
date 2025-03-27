@@ -5,6 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OfferResource\Pages;
 use App\Filament\Resources\OfferResource\RelationManagers;
 use App\Models\Offer;
+use App\Models\Subject;
+use App\Models\Teacher;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -21,17 +26,35 @@ class OfferResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                //
-            ]);
+            $subjects = Subject::all(); // Fetch all subjects
+
+            $subjectInputs = [];
+            foreach ($subjects as $subject) {
+                $subjectInputs[] = Select::make("teacher_id_{$subject->id}")
+                    ->label("Assign Teacher to {$subject->subject_name}")
+                    ->options(Teacher::all()->pluck('user.name', 'id'))
+                    ->required()
+                    ->rules([
+                        'required',
+                        'exists:teachers,id'
+                    ]);
+                    
+            }
+
+            return $form
+                ->schema([
+                    Section::make('Assign Teachers to Subjects')
+                        ->schema($subjectInputs)
+                        ->columns(2),
+                ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('teacher.user.name')->label('Teacher'),
+                Tables\Columns\TextColumn::make('subject.subject_name')->label('Subject'),
             ])
             ->filters([
                 //

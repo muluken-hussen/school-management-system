@@ -36,7 +36,11 @@ class StudentGradeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('student.user.name')->label('Student Name'),
+                Tables\Columns\TextColumn::make('grade.grade_name')->label('Grade'),
+                Tables\Columns\TextColumn::make('total_marks')->label('Total Mark'),
+                Tables\Columns\TextColumn::make('avrage')->label('Avrage'),
+                Tables\Columns\TextColumn::make('rank')->label('Rank'),
             ])
             ->filters([
                 //
